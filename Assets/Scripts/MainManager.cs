@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainManager : MonoBehaviour
 {
@@ -11,14 +12,16 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text Leaderboard;
     public GameObject GameOverText;
+
+    private DataPersistence dataPersistence;
     
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
 
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +39,15 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        dataPersistence = GameObject.Find("DataPersistence").GetComponent<DataPersistence>();
+        SetName();
+    }
+
+    void SetName()
+    {
+        TextMeshPro Playername = dataPersistence.PlayerName;
+        Leaderboard.text = "Best Score: " + "Name: " + Playername;
     }
 
     private void Update()
@@ -73,4 +85,6 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
+
+
 }
